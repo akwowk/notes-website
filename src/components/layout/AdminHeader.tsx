@@ -23,6 +23,7 @@ export function AdminHeader({
           <span className="text-xs text-slate-600 font-medium">{displayName}</span>
           <div className="w-8 h-8 bg-slate-900 rounded-full flex items-center justify-center text-xs font-bold text-white overflow-hidden">
             {userImage ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
               <img src={userImage} alt="Profile" className="w-full h-full object-cover" />
             ) : (
               initial

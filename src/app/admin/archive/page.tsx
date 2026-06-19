@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma"
+import { Prisma } from "@/generated/prisma/client"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -13,7 +14,7 @@ export default async function ArchivePage({
   const { q } = await searchParams
   const query = q?.trim() || ""
 
-  const whereCondition: any = {
+  const whereCondition: Prisma.NoteWhereInput = {
     isArchived: true
   }
 

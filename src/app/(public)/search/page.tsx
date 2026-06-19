@@ -52,7 +52,7 @@ export default async function SearchPage({
         <h1 className="text-4xl font-bold text-slate-900 mb-4">Hasil Pencarian</h1>
         <p className="text-lg text-slate-600 max-w-2xl mx-auto">
           {query ? (
-            <>Menampilkan hasil untuk: <strong className="text-slate-900">"{query}"</strong></>
+            <>Menampilkan hasil untuk: <strong className="text-slate-900">&quot;{query}&quot;</strong></>
           ) : (
             "Silakan ketik sesuatu di kotak pencarian."
           )}

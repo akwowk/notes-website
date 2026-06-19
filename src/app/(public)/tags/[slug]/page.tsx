@@ -60,7 +60,7 @@ export default async function TagPage({
           Tag: {tag.name}
         </h1>
         <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-          Catatan yang dikelompokkan dalam label "{tag.name}".
+          Catatan yang dikelompokkan dalam label &quot;{tag.name}&quot;.
         </p>
       </header>
 

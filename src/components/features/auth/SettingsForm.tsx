@@ -124,6 +124,7 @@ export function SettingsForm({
           <div className="flex items-center gap-6">
             <div className="w-20 h-20 rounded-full bg-slate-200 flex shrink-0 items-center justify-center overflow-hidden border border-slate-300">
               {imageUrl ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
                 <img src={imageUrl} alt="Profile" className="w-full h-full object-cover" />
               ) : (
                 <span className="text-slate-400 text-2xl font-bold uppercase">{user.name?.charAt(0) || user.email.charAt(0)}</span>

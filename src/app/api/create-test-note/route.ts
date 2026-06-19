@@ -13,7 +13,8 @@ export async function GET() {
       }
     })
     return NextResponse.json({ success: true, slug: note.slug })
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message })
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error occurred"
+    return NextResponse.json({ success: false, error: message })
   }
 }

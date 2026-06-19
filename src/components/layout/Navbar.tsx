@@ -1,7 +1,10 @@
 import Link from "next/link"
 import { SearchBar } from "@/components/ui/SearchBar"
+import { auth } from "@/auth"
 
-export function Navbar() {
+export async function Navbar() {
+  const session = await auth()
+
   return (
     <nav className="w-full bg-white border-b border-slate-200 sticky top-0 z-50">
       <div className="max-w-5xl mx-auto px-6 py-3 flex flex-wrap items-center justify-between gap-4">
@@ -16,12 +19,21 @@ export function Navbar() {
             <Link href="/notes" className="text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors">
               Jelajahi
             </Link>
-            <Link 
-              href="/login" 
-              className="text-sm font-bold bg-slate-100 text-slate-900 px-3 py-1 rounded hover:bg-slate-200 border border-slate-200 transition-colors"
-            >
-              Login
-            </Link>
+            {session ? (
+              <Link 
+                href="/admin" 
+                className="text-sm font-bold bg-slate-900 text-white px-3 py-1 rounded hover:bg-slate-800 border border-slate-900 transition-colors"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <Link 
+                href="/login" 
+                className="text-sm font-bold bg-slate-100 text-slate-900 px-3 py-1 rounded hover:bg-slate-200 border border-slate-200 transition-colors"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
         

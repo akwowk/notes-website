@@ -1,0 +1,91 @@
+# Panduan Deployment ke VPS (Ubuntu/Debian)
+
+Berikut adalah daftar perangkat lunak yang harus diinstal di VPS Anda dan urutan langkah instalasinya.
+
+## 1. Instalasi Kebutuhan Dasar (Dependencies)
+
+Masuk (SSH) ke dalam VPS Anda, lalu jalankan perintah berikut untuk memperbarui sistem dan memasang Docker beserta Docker Compose:
+
+```bash
+# Update sistem
+sudo apt update && sudo apt upgrade -y
+
+# Install Docker
+sudo apt install -y docker.io docker-compose-v2
+# Jika menggunakan Ubuntu versi lama, gunakan: sudo apt install docker-compose
+
+# Mengaktifkan Docker agar menyala otomatis saat VPS restart
+sudo systemctl enable docker
+sudo systemctl start docker
+
+# (Opsional) Mengizinkan user Anda menjalankan docker tanpa sudo
+sudo usermod -aG docker $USER
+# Keluar dari SSH dan masuk lagi agar efek usermod bekerja
+```
+
+## 2. Proses Deployment (Langkah-langkah)
+
+Setelah Docker terpasang, langkah selanjutnya adalah menarik (clone) repositori aplikasi Anda ke dalam VPS dan menjalankannya.
+
+```bash
+# 1. Kloning Repositori Git Anda ke VPS
+git clone https://github.com/akwowk/notes-website.git
+cd notes-website
+
+# 2. Persiapan Environment
+# Ubah nilai NEXTAUTH_SECRET di file docker-compose.yml menjadi string acak yang aman.
+# Anda dapat membuatnya dengan perintah: openssl rand -base64 32
+
+# 3. Jalankan Docker Compose (Mode Detached / Background)
+sudo docker compose up -d --build
+
+# 4. Inisialisasi Database (Hanya untuk Pertama Kali)
+# Karena kita menggunakan Prisma, kita harus menyinkronkan skema ke database Postgres
+# yang baru saja menyala di dalam container Docker.
+sudo docker exec -it notes_app npx prisma db push
+
+# 5. (Opsional) Menjalankan Seed untuk membuat Akun Admin Pertama
+sudo docker exec -it notes_app npm run seed
+```
+
+## 3. Konfigurasi Domain & Nginx (Opsional / Direkomendasikan)
+
+Saat ini aplikasi Anda berjalan di port `3000` (http://IP_VPS:3000). Jika Anda ingin menggunakan nama domain (seperti `notes.domainanda.com`), Anda perlu menginstal Nginx sebagai Reverse Proxy:
+
+```bash
+# Install Nginx
+sudo apt install -y nginx
+
+# Buat konfigurasi proxy
+sudo nano /etc/nginx/sites-available/notes
+```
+
+Isi file `/etc/nginx/sites-available/notes`:
+
+```nginx
+server {
+    listen 80;
+    server_name notes.domainanda.com; # Ganti dengan domain Anda
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        
+        # Pengaturan batas unggah gambar (5MB)
+        client_max_body_size 5M;
+    }
+}
+```
+
+Kemudian aktifkan:
+```bash
+sudo ln -s /etc/nginx/sites-available/notes /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+```
+
+Selesai! Aplikasi Anda kini sudah mengudara di VPS menggunakan arsitektur Docker yang bersih dan terisolasi.

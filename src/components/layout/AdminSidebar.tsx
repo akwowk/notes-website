@@ -11,6 +11,7 @@ export default function Sidebar() {
     { name: "Semua Catatan", href: "/admin/notes" },
     { name: "Tag / Label", href: "/admin/tags" },
     { name: "Arsip", href: "/admin/archive" },
+    { name: "Kosakata", href: "/admin/vocabulary" },
     { name: "Pengaturan", href: "/admin/settings" },
   ]
 

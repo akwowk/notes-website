@@ -64,3 +64,12 @@ model NoteTag {
 
   @@id([noteId, tagId])
 }
+
+model Vocabulary {
+  id          String   @id @default(cuid())
+  word        String
+  translation String
+  notes       String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

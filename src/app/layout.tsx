@@ -8,8 +8,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Notes App | Knowledge Base",
-  description: "Personal Knowledge Management System",
+  title: "Notes App | Catatan Harian",
+  description: "Catatan pribadi yang dipublikasikan",
 };
 
 export default function RootLayout({

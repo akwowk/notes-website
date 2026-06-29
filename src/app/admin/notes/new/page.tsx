@@ -1,7 +1,7 @@
 import { createNote } from "@/features/notes/actions/create-note"
 import Link from "next/link"
 import { prisma } from "@/lib/prisma"
-import { MarkdownToolbar } from "@/components/features/notes/MarkdownToolbar"
+import { MarkdownTextarea } from "@/components/features/notes/MarkdownTextarea"
 
 export default async function CreateNotePage() {
   const tags = await prisma.tag.findMany({
@@ -56,17 +56,14 @@ export default async function CreateNotePage() {
           <label className="block text-sm font-bold text-slate-900 mb-2" htmlFor="content">
             Konten (Markdown)
           </label>
-          <div>
-            <MarkdownToolbar textareaId="content" />
-            <textarea
-              id="content"
-              name="content"
-              className="w-full min-h-[300px] p-4 border border-slate-200 rounded-b-xl focus:border-slate-900 focus:outline-none text-sm font-mono transition-colors"
-              placeholder="Mulai menulis dengan markdown..."
-              required
-              rows={20}
-            />
-          </div>
+          <MarkdownTextarea
+            id="content"
+            name="content"
+            className="w-full min-h-[300px] p-4 border border-slate-200 rounded-b-xl focus:border-slate-900 focus:outline-none text-sm font-mono transition-colors"
+            placeholder="Mulai menulis dengan markdown..."
+            required
+            rows={20}
+          />
         </div>
 
         {tags.length > 0 && (

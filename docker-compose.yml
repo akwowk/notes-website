@@ -1,36 +1,27 @@
-version: '3.8'
-
 services:
   db:
-    image: postgres:15-alpine
-    container_name: notes_db
-    restart: always
+    image: postgres:17
+    container_name: notes-postgres
+    restart: unless-stopped
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: mysecretpassword
       POSTGRES_DB: notes_db
-    ports:
-      - "5432:5432"
+      POSTGRES_USER: transcler
+      POSTGRES_PASSWORD: ILHAM2705I
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: notes_app
-    restart: always
-    ports:
-      - "3000:3000"
-    environment:
-      - DATABASE_URL=postgresql://admin:mysecretpassword@db:5432/notes_db?schema=public
-      - NEXTAUTH_URL=http://localhost:3000
-      - NEXTAUTH_SECRET=changethis_to_a_random_secure_string_in_production
+    build: .
+    container_name: notes-app
+    restart: unless-stopped
     depends_on:
       - db
-    volumes:
-      - uploads_data:/app/public/uploads
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:3000:3000"
 
 volumes:
   postgres_data:
-  uploads_data:
+
+

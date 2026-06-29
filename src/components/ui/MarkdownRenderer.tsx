@@ -5,6 +5,7 @@ import remarkRehype from "remark-rehype"
 import rehypeStringify from "rehype-stringify"
 import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
+import remarkBreaks from "remark-breaks"
 import rehypeKatex from "rehype-katex"
 import rehypePrettyCode from "rehype-pretty-code"
 
@@ -15,6 +16,7 @@ interface MarkdownRendererProps {
 export async function MarkdownRenderer({ content }: MarkdownRendererProps) {
   const file = await unified()
     .use(remarkParse)
+    .use(remarkBreaks)
     .use(remarkGfm)
     .use(remarkMath)
     .use(remarkRehype, { allowDangerousHtml: true })

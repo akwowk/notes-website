@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { autosaveNote } from "@/features/notes/actions/autosave-note"
-import { MarkdownToolbar } from "./MarkdownToolbar"
+import { MarkdownTextarea } from "./MarkdownTextarea"
 
 interface EditNoteFormProps {
   note: {
@@ -99,18 +99,15 @@ export function EditNoteForm({ note, tags, noteTagIds, updateAction }: EditNoteF
         <label className="block text-sm font-bold text-slate-900 mb-2" htmlFor="content">
           Konten (Markdown)
         </label>
-        <div>
-          <MarkdownToolbar textareaId="content" />
-          <textarea
-            id="content"
-            name="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="w-full min-h-[300px] p-4 border border-slate-200 rounded-b-xl focus:border-slate-900 focus:outline-none text-sm font-mono transition-colors"
-            placeholder="Mulai menulis dengan markdown..."
-            required
-          />
-        </div>
+        <MarkdownTextarea
+          id="content"
+          name="content"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          className="w-full min-h-[300px] p-4 border border-slate-200 rounded-b-xl focus:border-slate-900 focus:outline-none text-sm font-mono transition-colors"
+          placeholder="Mulai menulis dengan markdown..."
+          required
+        />
       </div>
 
       {tags.length > 0 && (

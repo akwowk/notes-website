@@ -58,6 +58,28 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Tambahan Seksi Konten (AdSense Thin Content Fix) */}
+      <section className="bg-slate-900 text-white rounded-xl p-8 md:p-12 mb-16 shadow-lg">
+        <h2 className="text-2xl font-bold mb-4">Tentang Knowledge Base Ini</h2>
+        <p className="text-slate-300 leading-relaxed mb-6">
+          Situs ini adalah repositori pribadi yang memuat berbagai macam artikel, panduan teknis, eksperimen kode, dan opini mengenai teknologi modern. Kami berfokus pada pengembangan perangkat lunak, sistem keamanan, arsitektur *web*, hingga produktivitas digital. Semua tulisan dikurasi agar mudah dipahami, minimalis, dan langsung pada intinya.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-slate-700 pt-8">
+          <div>
+            <h3 className="font-bold text-lg mb-2">Bebas Distraksi</h3>
+            <p className="text-sm text-slate-400">Tampilan *read-first* tanpa elemen yang tidak perlu. Fokus penuh pada literatur.</p>
+          </div>
+          <div>
+            <h3 className="font-bold text-lg mb-2">Pembaruan Rutin</h3>
+            <p className="text-sm text-slate-400">Dapatkan wawasan segar dari catatan yang secara berkala diperbarui oleh penulis.</p>
+          </div>
+          <div>
+            <h3 className="font-bold text-lg mb-2">Penelusuran Pintar</h3>
+            <p className="text-sm text-slate-400">Cari informasi yang spesifik dalam hitungan detik menggunakan fitur pencarian cepat.</p>
+          </div>
+        </div>
+      </section>
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         <div className="lg:col-span-8">
           <div className="flex justify-between items-end mb-6 border-b border-slate-200 pb-4">

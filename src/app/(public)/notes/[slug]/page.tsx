@@ -5,6 +5,45 @@ import { MarkdownRenderer } from "@/components/ui/MarkdownRenderer"
 import { Badge } from "@/components/ui/badge"
 import { getReadingTime } from "@/features/notes/utils/reading-time"
 
+import type { Metadata } from "next"
+
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const note = await prisma.note.findUnique({
+    where: { slug },
+    include: { tags: { include: { tag: true } } }
+  })
+
+  if (!note || note.isArchived) {
+    return { title: "Not Found" }
+  }
+
+  const excerptText = note.excerpt || note.content.slice(0, 150).replace(/[#*`_\[\]>]/g, '') + "..."
+  const keywords = note.tags.map(nt => nt.tag.name).join(", ")
+
+  return {
+    title: note.title,
+    description: excerptText,
+    keywords: keywords,
+    openGraph: {
+      title: note.title,
+      description: excerptText,
+      type: "article",
+      publishedTime: note.createdAt.toISOString(),
+      modifiedTime: note.updatedAt.toISOString(),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: note.title,
+      description: excerptText,
+    }
+  }
+}
+
 export default async function NotePage({
   params
 }: {
